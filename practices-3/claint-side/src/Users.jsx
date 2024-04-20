@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import './App.css';
 import { useState } from 'react';
 
@@ -21,6 +21,11 @@ const Users = () => {
         }
       });
   };
+
+  const handleEdit = (id) => {
+    console.log(id);
+  };
+
   return (
     <div>
       <h1>Users Page {data.length}</h1>
@@ -28,6 +33,9 @@ const Users = () => {
         {data.map((dta) => (
           <p key={dta._id}>
             {dta.name} : {dta.email}{' '}
+            <Link to={`/edit-user/${dta._id}`}>
+              <button onClick={() => handleEdit(dta._id)}>Edit</button>
+            </Link>{' '}
             <button onClick={() => handleDelete(dta._id)}>X</button>
           </p>
         ))}
