@@ -13,7 +13,7 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const { count } = useLoaderData();
-  console.log(count);
+//   console.log(count);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
   const numberOfPages = Math.ceil(count / itemsPerPage);
@@ -37,10 +37,12 @@ const Shop = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:5000/products')
+    fetch(
+      `http://localhost:5000/products?page=${currentPage}&size=${itemsPerPage}`
+    )
       .then((res) => res.json())
       .then((data) => setProducts(data));
-  }, []);
+  }, [currentPage, itemsPerPage]);
 
   useEffect(() => {
     const storedCart = getShoppingCart();
@@ -117,6 +119,7 @@ const Shop = () => {
           <select onChange={handleItemsPerPages} defaultValue={itemsPerPage}>
             <option value="10">10</option>
             <option value="20">20</option>
+            <option value="30">30</option>
             <option value="50">50</option>
           </select>
           <button onClick={handlePrev}>Prev</button>
