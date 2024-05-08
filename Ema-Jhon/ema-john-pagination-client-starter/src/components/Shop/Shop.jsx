@@ -15,12 +15,25 @@ const Shop = () => {
   const { count } = useLoaderData();
   console.log(count);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(0);
   const numberOfPages = Math.ceil(count / itemsPerPage);
   const pages = [...Array(numberOfPages).keys()];
 
   const handleItemsPerPages = (e) => {
     const value = parseInt(e.target.value);
-    setItemsPerPage(value)
+    setItemsPerPage(value);
+    setCurrentPage(0);
+  };
+
+  const handleNext = () => {
+    if (currentPage < pages.length - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const handlePrev = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   useEffect(() => {
@@ -92,17 +105,32 @@ const Shop = () => {
           </Link>
         </Cart>
       </div>
-      <div className="pagination">
-        <select onChange={handleItemsPerPages} defaultValue={itemsPerPage}>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-        </select>
-        <button>Prev</button>
-        {pages.map((dta) => (
-          <button key={dta}>{dta}</button>
-        ))}
-        <button>Next</button>
+      <div>
+        <p
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          Current Page: {currentPage}
+        </p>
+        <div className="pagination">
+          <select onChange={handleItemsPerPages} defaultValue={itemsPerPage}>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
+          <button onClick={handlePrev}>Prev</button>
+          {pages.map((dta) => (
+            <button
+              key={dta}
+              onClick={() => setCurrentPage(dta)}
+              className={currentPage === dta ? 'selected' : ''}
+            >
+              {dta}
+            </button>
+          ))}
+          <button onClick={handleNext}>Next</button>
+        </div>
       </div>
     </div>
   );

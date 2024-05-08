@@ -37,3 +37,7 @@
   padding: 10px 20px;
   border-radius: 7px;
 }
+
+.selected {
+  background-color: #ff9900;
+}
